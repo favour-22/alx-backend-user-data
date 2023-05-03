@@ -1,4 +1,4 @@
-# Simple API
+# Simple API in pyhton
 
 Simple HTTP API for playing with `User` model.
 
