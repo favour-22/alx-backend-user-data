@@ -1,4 +1,7 @@
-#!/usr/bin/env python3
+#!/udr/bin/env/python3
+"""
+Hashing
+"""
 import bcrypt
 
 
@@ -16,5 +19,5 @@ def hash_password(password: str) -> bytes:
 
     # Hash the password with the salt
     hashed_password = bcrypt.hashpw(password.encode('utf-8'), salt)
-
+    
     return hashed_password
