@@ -15,13 +15,15 @@ PII_FIELDS = ("name", "email", "phone", "ssn", "password")
 def filter_datum(fields: List[str], redaction: str,
                  message: str, separator: str) -> str:
     """
-    Replace occurrences of certain field values in a log message with a redaction string.
+    Replace occurrences of certain field values in
+    a log message with a redaction string.
 
     Args:
         fields: A list of strings representing all fields to obfuscate.
         redaction: A string representing by what the field will be obfuscated.
         message: A string representing the log line.
-        separator: A string representing by which character is separating all fields in the log line (message).
+        separator: A string representing by which
+        character is separating all fields in the log line (message).
 
     Returns:
         A new string with the specified fields obfuscated.
@@ -102,7 +104,8 @@ class RedactingFormatter(logging.Formatter):
         Initialize a RedactingFormatter object.
 
         Args:
-            fields: A list of strings representing the names of fields to redact.
+            fields: A list of strings representing
+            the names of fields to redact.
         """
         super().__init__(self.FORMAT)
         self.fields = fields
