@@ -14,7 +14,29 @@ def index() -> str:
     txt = {"message": "Bienvenue"}
     return jsonify(txt)
 
+@app.route('/users')
+"""def users():
+     user endpoint 
+    if request.method == 'POST':
+        email = request.form('email')
+        password = request.form('passord')
 
+    try:
+        AUTH.register(email=email, password=password)
+         return jsonify({'email': email, 'message': 'user created'})
+    except ValueError:
+ return jsonify({'message': 'email already registered'}), 400 """
+
+def users():
+    if request.method == 'POST':
+        email = request.form.get('email')
+        password = request.form.get('password')
+
+        try:
+            AUTH.register(email=email, password=password)
+            return jsonify({'email': email, 'message': 'user created'})
+        except ValueError:
+            return jsonify({'message': 'email already registered'}), 400
 
 
 
