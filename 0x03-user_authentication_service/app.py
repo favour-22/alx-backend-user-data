@@ -1,17 +1,21 @@
 #!/usr/bin/env python3
-"""API routes for auth"""
+"""API Routes """
 from auth import Auth
-from flask import Flask,request,abort,redirect,jsonify
+from flask import (Flask,
+                   jsonify,
+                   request,
+                   abort,
+                   redirect)
 
-app=Flask(__name__)
-AUTH =Auth()
+app = Flask(__name__)
+AUTH = Auth()
 
 
-@app.route('/',methods=['GET'])
-def index() ->str:
-    """BASE ROUTE"""
-    text = {"message": "Bienvenue"}
-    return jsonify(text)
+@app.route('/', methods=['GET'])
+def index() -> str:
+    """ Base route for authentication service API """
+    txt = {"message": "Bienvenue"}
+    return jsonify(txt)
 
 
 
