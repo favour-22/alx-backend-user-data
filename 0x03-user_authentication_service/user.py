@@ -1,73 +1,22 @@
 #!/usr/bin/env python3
-""" Database for ORM """
-from sqlalchemy import create_engine
+"""
+This module defines a SQLAlchemy model for the "users" table.
+"""
+
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
-from sqlalchemy.exc import InvalidRequestError
-from sqlalchemy.orm.exc import NoResultFound
-from typing import TypeVar
-from user import Base, User
+from sqlalchemy import Column, Integer, String
+
+Base = declarative_base()
 
 
-class DB:
-    """ DB Class for Object Reational Mapping """
+class User(Base):
+    """
+    A class representing a user in the "users" table.
+    """
+    __tablename__ = 'users'
 
-    def __init__(self):
-        """ init  """
-        self._engine = create_engine("sqlite:///a.db", echo=False)
-        Base.metadata.drop_all(self._engine)
-        Base.metadata.create_all(self._engine)
-        self.__session = None
-
-    @property
-    def _session(self):
-        """ Session Getter Method """
-        if self.__session is None:
-            DBSession = sessionmaker(bind=self._engine)
-            self.__session = DBSession()
-        return self.__session
-
-    def add_user(self, email: str, hashed_password: str) -> User:
-        """ Adds user to database
-        Return: User Object
-        """
-        user = User(email=email, hashed_password=hashed_password)
-        self._session.add(user)
-        self._session.commit()
-
-        return user
-
-    def find_user_by(self, **kwargs) -> User:
-        """ Finds user by key word args
-        Return: First row found in the users table as filtered by kwargs
-        """
-        if not kwargs:
-            raise InvalidRequestError
-
-        column_names = User.__table__.columns.keys()
-        for key in kwargs.keys():
-            if key not in column_names:
-                raise InvalidRequestError
-
-        user = self._session.query(User).filter_by(**kwargs).first()
-
-        if user is None:
-            raise NoResultFound
-
-        return user
-
-    def update_user(self, user_id: int, **kwargs) -> None:
-        """ Update users attributes
-        Returns: None
-        """
-        user = self.find_user_by(id=user_id)
-
-        column_names = User.__table__.columns.keys()
-        for key in kwargs.keys():
-            if key not in column_names:
-                raise ValueError
-
-        for key, value in kwargs.items():
-            setattr(user, key, value)
-
-        self._session.commit()
+    id = Column(Integer, primary_key=True)
+    email = Column(String(250), nullable=False)
+    hashed_password = Column(String(250), nullable=False)
+    session_id = Column(String(250), nullable=True)
+    reset_token = Column(String(250), nullable=True)
